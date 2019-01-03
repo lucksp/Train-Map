@@ -2,15 +2,27 @@
 import ActionTypes from "../actions/actionTypes";
 
 const initialState = {
-  test: "nope"
+  loading: false,
+  error: null,
+  data: {}
 };
 
 export default function data(state = state ? state : initialState, action) {
   switch (action.type) {
-    case ActionTypes.TEST:
+    case ActionTypes.DATA_FETCH:
       return {
         ...state,
-        test: action.payload
+        loading: true
+      };
+
+    case ActionTypes.DATA_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: {
+          channelSet: action.payload.channelSet,
+          samples: action.payload.samples
+        }
       };
 
     default:

@@ -10,13 +10,14 @@ class App extends Component {
     this.props.dataFetch();
   }
   render() {
-    return <Home />;
+    return this.props.loading ? <div>Loading...</div> : <Home />;
   }
 }
 
 function mapStateToProps(state) {
   return {
-    playerData: state.common.playerData
+    data: state.common.data,
+    loading: state.common.loading
   };
 }
 function mapDispatchToProps(dispatch) {
