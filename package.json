@@ -1,0 +1,58 @@
+{
+  "name": "react_webpack_boilerplate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:lucksp/react_webpack_boilerplate.git",
+  "author": "Phil Lucks <lucksp@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "Node",
+    "React",
+    "Webpack",
+    "Babel",
+    "boilerplate",
+    "hot module replacement",
+    "hmr",
+    "express",
+    "node"
+  ],
+  "scripts": {
+    "dev": "node server/server.js",
+    "build": "webpack --env.NODE_ENV=production --env.production cross-env -p --config webpack.config.production.js && NODE_ENV=production node server/server.js"
+  },
+  "dependencies": {
+    "pm2": "^2.10.2",
+    "react": "^16.3.2",
+    "react-delay-render": "^0.1.2",
+    "react-dom": "^16.3.2",
+    "react-imported-component": "^4.2.1",
+    "react-prop-types": "^0.4.0",
+    "react-router-dom": "^4.2.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "chalk": "^2.4.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "concurrently": "^3.5.1",
+    "cross-env": "^5.1.4",
+    "css-loader": "^0.28.11",
+    "express": "^4.16.3",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.8.3",
+    "postcss-loader": "^2.1.4",
+    "react-hot-loader": "^4.1.1",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.6.0",
+    "webpack-cli": "3.1.1",
+    "webpack-dev-middleware": "^3.1.2",
+    "webpack-hot-middleware": "^2.22.1"
+  }
+}
