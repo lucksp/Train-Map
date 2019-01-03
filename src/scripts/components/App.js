@@ -1,18 +1,31 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { Component } from "react";
 
 import Home from "./Home";
-import PageLink from "./PageLink";
 
-const App = () => {
-  return (
-    <div>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/link/" component={PageLink} />
-      </Switch>
-    </div>
-  );
-};
+import { connect } from "react-redux";
+import { dataFetch } from "../redux/actions/common";
 
-export default App;
+class App extends Component {
+  componentDidMount() {
+    this.props.dataFetch();
+  }
+  render() {
+    return <Home />;
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    playerData: state.common.playerData
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    dataFetch: () => dispatch(dataFetch())
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
