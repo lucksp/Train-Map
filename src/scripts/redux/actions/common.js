@@ -8,13 +8,14 @@ export const dataFetch = () => {
       .then(handleErrors)
       .then(res => res.json())
       .then(json => {
+        dispatch(filterData(json.samples));
         return dispatch({
           type: ActionTypes.DATA_SUCCESS,
           payload: json
         });
       })
-      .catch(error =>
-        dispatch({ type: ActionTypes.DATA_ERROR, payload: error })
+      .catch(
+        error => {} //dispatch({ type: ActionTypes.DATA_ERROR, payload: error })
       );
   };
 };
@@ -26,3 +27,19 @@ function handleErrors(response) {
   }
   return response;
 }
+
+export const filterData = sampleData => {
+  const filteredData = sampleData.filter(data => {
+    return (
+      data.values.hasOwnProperty("positionLat") &&
+      data.values.hasOwnProperty("positionLong")
+    );
+  });
+
+  return function(dispatch, state) {
+    dispatch({
+      type: ActionTypes.DATA_FILTERED,
+      payload: filteredData
+    });
+  };
+};

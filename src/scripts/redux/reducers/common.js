@@ -2,9 +2,10 @@
 import ActionTypes from "../actions/actionTypes";
 
 const initialState = {
-  loading: false,
+  loading: true,
   error: null,
-  data: {}
+  data: {},
+  channelSet: []
 };
 
 export default function data(state = state ? state : initialState, action) {
@@ -18,11 +19,13 @@ export default function data(state = state ? state : initialState, action) {
     case ActionTypes.DATA_SUCCESS:
       return {
         ...state,
+        channelSet: action.payload.channelSet
+      };
+    case ActionTypes.DATA_FILTERED:
+      return {
+        ...state,
         loading: false,
-        data: {
-          channelSet: action.payload.channelSet,
-          samples: action.payload.samples
-        }
+        data: action.payload
       };
 
     default:
