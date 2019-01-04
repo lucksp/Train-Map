@@ -19,13 +19,9 @@ export default function data(state = state ? state : initialState, action) {
     case ActionTypes.DATA_SUCCESS:
       return {
         ...state,
-        channelSet: action.payload.channelSet
-      };
-    case ActionTypes.DATA_FILTERED:
-      return {
-        ...state,
-        loading: false,
-        data: action.payload
+        channelSet: action.payload.channelSet,
+        data: action.payload.samples,
+        loading: false
       };
 
     default:

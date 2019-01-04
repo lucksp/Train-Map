@@ -10,14 +10,18 @@ class DataMap extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.data) {
-      const multiPolyline = nextProps.data.map(item => {
-        let array = [];
-        array.push.apply(array, [
-          item.values.positionLat,
-          item.values.positionLong
-        ]);
-        return array;
-      });
+      const multiPolyline = nextProps.data
+        .filter(item => {
+          return item.values.positionLat && item.values.positionLong;
+        })
+        .map(item => {
+          let itemArray = [];
+          itemArray.push.apply(itemArray, [
+            item.values.positionLat,
+            item.values.positionLong
+          ]);
+          return itemArray;
+        });
 
       return { multiPolyline: multiPolyline };
     }
