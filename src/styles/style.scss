@@ -18,4 +18,12 @@
   .title {
     margin: 16px;
   }
+
+  &.map {
+    width: auto;
+  }
+  &.graph {
+    width: calc(50vw - 24px);
+    min-height: 25vh;
+  }
 }
