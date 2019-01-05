@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Map, TileLayer, Polyline } from "react-leaflet";
 import { connect } from "react-redux";
-import { getFilteredData } from "../../../helpers";
 
 class DataMap extends Component {
   state = {
@@ -10,38 +9,8 @@ class DataMap extends Component {
   };
   mapRef = React.createRef();
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.data) {
-      const { betweenSegments } = { ...nextProps };
-      let multiPolyline = [];
-      let filtered = getFilteredData(nextProps.data).map(item => {
-        item = {
-          ...item,
-          ...item.values
-        };
-        if (betweenSegments.length) {
-          if (
-            item.millisecondOffset >= betweenSegments[0] &&
-            item.millisecondOffset <= betweenSegments[1]
-          ) {
-            multiPolyline.push([item.positionLat, item.positionLong]);
-          }
-        } else {
-          multiPolyline.push([item.positionLat, item.positionLong]);
-        }
-        return item;
-      });
-
-      return {
-        multiPolyline: multiPolyline,
-        betweenSegments: betweenSegments.length
-      };
-    }
-    return null;
-  }
-
   componentDidMount() {
-    this.mapRef.current.leafletElement.fitBounds(this.state.multiPolyline);
+    this.mapRef.current.leafletElement.fitBounds(this.props.multiPolyline);
   }
 
   render() {
@@ -52,8 +21,9 @@ class DataMap extends Component {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Polyline
+          weight="5"
           color={this.state.betweenSegments ? "red" : "green"}
-          positions={this.state.multiPolyline}
+          positions={this.props.multiPolyline}
         />
       </Map>
     );
@@ -61,7 +31,7 @@ class DataMap extends Component {
 }
 const mapStateToProps = state => {
   return {
-    data: state.common.data,
+    multiPolyline: state.common.multiPolyline,
     betweenSegments: state.common.betweenSegments
   };
 };

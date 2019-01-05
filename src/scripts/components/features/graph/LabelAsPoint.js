@@ -1,12 +1,12 @@
 import React from "react";
 
 const LabelAsPoint = props => {
-  const { x, y, index } = props;
+  const { x, y, index, handleClick } = props;
   return (
     <circle
       className="circle-segment"
       onClick={e => {
-        this.props.handleClick(e, index);
+        handleClick(e, index);
       }}
       cx={x}
       cy={y}
