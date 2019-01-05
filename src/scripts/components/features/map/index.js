@@ -5,23 +5,37 @@ import { getFilteredData } from "../../../helpers";
 
 class DataMap extends Component {
   state = {
-    multiPolyline: null
+    multiPolyline: null,
+    betweenSegments: false
   };
   mapRef = React.createRef();
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.data) {
-      const multiPolyline = getFilteredData(nextProps.data).map(
-        (item, nextProps) => {
-          let itemArray = [];
-          itemArray.push.apply(itemArray, [
-            item.values.positionLat,
-            item.values.positionLong
-          ]);
-          return itemArray;
+      const { betweenSegments } = { ...nextProps };
+      let multiPolyline = [];
+      let filtered = getFilteredData(nextProps.data).map(item => {
+        item = {
+          ...item,
+          ...item.values
+        };
+        if (betweenSegments.length) {
+          if (
+            item.millisecondOffset >= betweenSegments[0] &&
+            item.millisecondOffset <= betweenSegments[1]
+          ) {
+            multiPolyline.push([item.positionLat, item.positionLong]);
+          }
+        } else {
+          multiPolyline.push([item.positionLat, item.positionLong]);
         }
-      );
-      return { multiPolyline: multiPolyline };
+        return item;
+      });
+
+      return {
+        multiPolyline: multiPolyline,
+        betweenSegments: betweenSegments.length
+      };
     }
     return null;
   }
@@ -37,7 +51,10 @@ class DataMap extends Component {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Polyline color="red" positions={this.state.multiPolyline} />
+        <Polyline
+          color={this.state.betweenSegments ? "red" : "green"}
+          positions={this.state.multiPolyline}
+        />
       </Map>
     );
   }

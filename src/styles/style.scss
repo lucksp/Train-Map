@@ -23,9 +23,6 @@
     width: auto;
   }
   &.graph {
-    width: calc(50vw - 24px);
-    min-height: 25vh;
-
     .circle-segment {
       cursor: pointer;
     }

@@ -69,7 +69,7 @@ class Graph extends Component {
 
   render() {
     return (
-      <ResponsiveContainer width="98%" height={400}>
+      <ResponsiveContainer width="98%" height={500}>
         <LineChart width={600} height={300} data={this.state.graphData}>
           <Line
             type="monotone"
