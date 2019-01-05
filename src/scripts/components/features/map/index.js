@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Map, TileLayer, Polyline } from "react-leaflet";
 import { connect } from "react-redux";
+import { getFilteredData } from "../../../helpers";
 
 class DataMap extends Component {
   state = {
@@ -10,18 +11,14 @@ class DataMap extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.data) {
-      const multiPolyline = nextProps.data
-        .filter(item => {
-          return item.values.positionLat && item.values.positionLong;
-        })
-        .map(item => {
-          let itemArray = [];
-          itemArray.push.apply(itemArray, [
-            item.values.positionLat,
-            item.values.positionLong
-          ]);
-          return itemArray;
-        });
+      const multiPolyline = getFilteredData(nextProps.data).map(item => {
+        let itemArray = [];
+        itemArray.push.apply(itemArray, [
+          item.values.positionLat,
+          item.values.positionLong
+        ]);
+        return itemArray;
+      });
 
       return { multiPolyline: multiPolyline };
     }
