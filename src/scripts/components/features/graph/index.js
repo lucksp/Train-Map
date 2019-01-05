@@ -8,13 +8,18 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Legend
 } from "recharts";
+import LabelAsPoint from "./LabelAsPoint";
+import { displaySelectedSegment } from "../../../redux/actions/common";
 
 class Graph extends Component {
   state = {
     graphData: []
   };
+
+  clickedRef = React.createRef();
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.data) {
@@ -53,14 +58,32 @@ class Graph extends Component {
     return null;
   }
 
+  handleClick = (e, indexClicked) => {
+    const between = [
+      this.state.graphData[indexClicked - 1].millisecondOffset,
+      this.state.graphData[indexClicked].millisecondOffset
+    ];
+
+    this.props.displaySelectedSegment(between);
+  };
+
   render() {
     return (
       <ResponsiveContainer width="98%" height={400}>
         <LineChart width={600} height={300} data={this.state.graphData}>
-          <Line type="monotone" dataKey="power" stroke="#8884d8" />
+          <Line
+            type="monotone"
+            dataKey="power"
+            stroke="#8884d8"
+            label={
+              <LabelAsPoint handleClick={this.handleClick} {...this.props} />
+            }
+            activeDot={false}
+          />
           <CartesianGrid stroke="#ccc" opacity="0.25" />
           <XAxis dataKey="time" />
           <YAxis />
+          <Legend />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -72,7 +95,9 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    displaySelectedSegment: between => dispatch(displaySelectedSegment(between))
+  };
 };
 
 export default connect(

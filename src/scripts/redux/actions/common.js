@@ -26,3 +26,12 @@ function handleErrors(response) {
   }
   return response;
 }
+
+export const displaySelectedSegment = between => {
+  return function(dispatch, state) {
+    dispatch({
+      type: ActionTypes.GRAPH_SEGMENT_CLICKED,
+      payload: between
+    });
+  };
+};

@@ -5,7 +5,8 @@ const initialState = {
   loading: true,
   error: null,
   data: {},
-  channelSet: []
+  channelSet: [],
+  betweenSegments: []
 };
 
 export default function data(state = state ? state : initialState, action) {
@@ -22,6 +23,12 @@ export default function data(state = state ? state : initialState, action) {
         channelSet: action.payload.channelSet,
         data: action.payload.samples,
         loading: false
+      };
+
+    case ActionTypes.GRAPH_SEGMENT_CLICKED:
+      return {
+        ...state,
+        betweenSegments: action.payload
       };
 
     default:
