@@ -35,3 +35,12 @@ export const displaySelectedSegment = between => {
     });
   };
 };
+
+export const calcBestTimes = times => {
+  return function(dispatch, state) {
+    dispatch({
+      type: ActionTypes.CALC_BEST_EFFORT,
+      payload: times
+    });
+  };
+};

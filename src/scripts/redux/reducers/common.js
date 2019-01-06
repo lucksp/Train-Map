@@ -20,7 +20,7 @@ export default function data(state = state ? state : initialState, action) {
       };
 
     case ActionTypes.DATA_SUCCESS:
-      const commonData = getFilteredData(action.payload.samples);
+      var commonData = getFilteredData(action.payload.samples);
 
       // massage data for Graph
       let segment = 1;
@@ -67,6 +67,7 @@ export default function data(state = state ? state : initialState, action) {
     case ActionTypes.GRAPH_SEGMENT_CLICKED:
       const betweenSegments = action.payload;
       let multiPolylineBetween = [];
+
       state.commonData.forEach(item => {
         if (
           item.millisecondOffset >= betweenSegments[0] &&
@@ -83,11 +84,61 @@ export default function data(state = state ? state : initialState, action) {
       };
 
     case ActionTypes.CALC_BEST_EFFORT:
-      debugger;
-      const times = { ...action.payload };
+      const times = [...action.payload];
+      var commonData = state.commonData;
+
+      let overall = {};
+      const timeByChunk = (array, propertyName, times) => {
+        times.forEach((time, timesIndex) => {
+          // convert time in min to millisec
+          const milliTime = time * 6000;
+          // track previous time slot for knowing which bin
+          const previousTime =
+            timesIndex === 0 ? 0 : times[timesIndex - 1] * 6000;
+          array.forEach((item, index) => {
+            if (typeof overall[time] === "undefined") {
+              overall[time] = [];
+            }
+
+            // To calculate "best effort":  Take heartRate / power
+            const bestEffort = item.power / item.heartRate;
+            item = {
+              ...item,
+              bestEffort
+            };
+
+            if (
+              item[propertyName] >= previousTime &&
+              item[propertyName] < milliTime
+            ) {
+              overall[time].push(item);
+            }
+          });
+        });
+      };
+
+      timeByChunk(commonData, "millisecondOffset", times);
+
+      let bestEffort = {};
+      const returnBestInterval = group => {
+        // find highest value
+        var t = Math.max.apply(
+          Math,
+          group.map(function(item) {
+            return item.bestEffort;
+          })
+        );
+        // return actual item with data
+        return group.find(item => item.bestEffort === t);
+      };
+
+      Object.keys(overall).forEach(timeGroup => {
+        bestEffort[timeGroup] = returnBestInterval(overall[timeGroup]);
+      });
 
       return {
-        ...state
+        ...state,
+        bestEffort
       };
 
     default:
