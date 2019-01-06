@@ -9,14 +9,14 @@ const Home = () => {
   return (
     <div>
       <h1>Let's see how you did</h1>
-      {/*<Card addClass="map">
+      <Card addClass="map">
         <CardTitle text="Mapped Route" />
         <DataMap />
       </Card>
       <Card addClass="graph">
         <CardTitle text="Power Output: 2 minute intervals" />
         <Graph />
-  </Card> */}
+      </Card>
       <Card addClass="efforts">
         <CardTitle text="Best Effort" />
         <Effort />

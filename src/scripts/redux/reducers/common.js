@@ -8,7 +8,7 @@ const initialState = {
   data: {},
   channelSet: [],
   betweenSegments: [],
-  bestTimes: {}
+  bestEffort: {}
 };
 
 export default function data(state = state ? state : initialState, action) {
@@ -101,7 +101,8 @@ export default function data(state = state ? state : initialState, action) {
             }
 
             // To calculate "best effort":  Take heartRate / power
-            const bestEffort = item.power / item.heartRate;
+            const bestEffort =
+              Math.round((item.power / item.heartRate) * 100) / 100;
             item = {
               ...item,
               bestEffort

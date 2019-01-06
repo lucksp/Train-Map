@@ -27,4 +27,15 @@
       cursor: pointer;
     }
   }
+  &.efforts {
+    .content {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .results {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
 }
