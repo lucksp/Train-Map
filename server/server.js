@@ -1,7 +1,8 @@
 const path = require("path");
 const express = require("express");
-
 const app = express();
+
+const data = require("../data/data.json");
 const port = process.env.NODE_ENV === "production" ? 80 : 3000;
 
 let useFolder;
@@ -35,8 +36,8 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, ".." + useFolder + "index.html"));
 });
 
-app.get("/api/data", (req, res) => {
-  res.send("hi from server"); // replace me with real data
+app.get("/data", (req, res) => {
+  res.json(data); // replace me with real data
 });
 
 app.listen(port, function(err) {
