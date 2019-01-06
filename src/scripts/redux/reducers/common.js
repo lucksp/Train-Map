@@ -1,5 +1,5 @@
 // here we respond to a dispatch from an action item, then we return updated state to UI
-import ActionTypes from "../actions/actionTypes";
+import ActionTypes from "../actions/ActionTypes";
 import { getFilteredData } from "../helpers";
 
 const initialState = {
